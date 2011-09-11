@@ -1,0 +1,137 @@
+using System.Collections.Generic;
+using System.Text;
+
+COMPILER Scl
+
+public class SclElement
+{
+    public string Name;
+    public SclElement Parent;
+    public readonly List<SclVal> Vals = new List<SclVal>();
+    public readonly List<SclElement> Children = new List<SclElement>();
+    
+    public SclElement(SclElement parent)
+    {
+        Parent = parent;
+    }
+    
+    internal void AddVal(SclVal val)
+    {
+        Vals.Add(val);
+    }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        foreach (var val in Vals)
+        {
+            sb.Append(val);
+            sb.Append(",");
+        }
+
+        if (sb.Length > 0) sb.Remove(sb.Length - 1, 1);
+
+        return string.Format("Name: {0}, Vals: [{1}]", Name, sb);
+    }
+}
+
+public class SclVal
+{
+    public SclVal(Token token, SclElement owner)
+    {
+        Token = token;
+        Owner = owner;
+        Val = Read(token);
+    }
+
+    private string Read(Token token)
+    {
+        var str = token.val;
+
+        if (token.kind == _sVal)
+            return str;
+
+        var sb = new StringBuilder(str.Length - 2);
+
+        for (int i = 1; i < str.Length - 1; i++)
+        {
+            var c = str[i];
+
+            if (c == '\\')
+            {
+                i++;
+                c = str[i];
+
+                if (c == 'a') c = '\a';
+                else if (c == 'b') c = '\b';
+                else if (c == 'f') c = '\f';
+                else if (c == 'n') c = '\n';
+                else if (c == 'r') c = '\r';
+                else if (c == 't') c = '\t';
+                else if (c == 'v') c = '\v';
+                else if (c == '"') c = '"';
+                else if (c == '\\') c = '\\';
+            }
+            
+            sb.Append(c);
+        }
+
+        return sb.ToString();
+    }
+
+    public Token Token;
+    public SclElement Owner;
+    public string Val;
+
+    public override string ToString()
+    {
+        return Val;
+    }
+}
+
+public readonly SclElement root = new SclElement(null) {Name = "_root_"};
+
+CHARACTERS
+    tab                = '\u0009'.
+    lf                 = '\u000a'.
+    cr                 = '\u000d'.
+    quot               = '\u0022'.
+    apos               = '\u0027'.
+    bs                 = '\u005c'.
+    sem                = ';'.
+    newLine            = lf.
+
+    letter             = 'A' .. 'Z' + 'a' .. 'z' + '_'.
+    digit              = '0'..'9'.
+    notDigit           = ANY - digit.
+    ws                 = " " + cr + tab.
+
+    simpleString       = ANY - quot - sem - ws - newLine.
+    regularString      = ANY - quot - bs - cr - newLine.
+    notNewLine         = ANY - cr - newLine .
+
+TOKENS
+    l = lf.
+    s = sem.
+    sVal = simpleString { simpleString }.
+    cVal = quot { regularString | "\\\"" | "\\\\" | "\\0" | "\\a" | "\\b" | "\\f" | "\\n" | "\\r" | "\\t" | "\\v" } quot . 
+
+COMMENTS FROM "#" TO newLine
+
+IGNORE ws
+
+PRODUCTIONS
+    Scl = { Element<root> | (l|s) }.
+    Key = sVal.
+    Val = Key | cVal.
+    Element<SclElement p>                  (. var el = new SclElement(p); p.Children.Add(el); .)
+        =   Key                            (. el.Name = t.val; .)
+          {
+            Val                            (. el.AddVal(new SclVal(t, el)); .)
+          }
+          [
+            "{" {(l|s)} { Element<el> {(l|s)} } "}"
+          ]
+          (l|s).
+
+END Scl.
