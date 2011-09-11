@@ -189,7 +189,14 @@ public class Buffer {
 // UTF8Buffer
 //-----------------------------------------------------------------------------------
 public class UTF8Buffer: Buffer {
-	public UTF8Buffer(Buffer b): base(b) {}
+	
+	public UTF8Buffer(Stream s, bool isUserStream) : base(s, isUserStream)
+	{
+	}
+
+	protected UTF8Buffer(Buffer b) : base(b)
+	{
+	}
 
 	public override int Read() {
 		int ch;
@@ -256,7 +263,7 @@ public class Scanner {
 	public Scanner (string fileName) {
 		try {
 			Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-			buffer = new Buffer(stream, false);
+			buffer = new UTF8Buffer(stream, false);
 			Init();
 		} catch (IOException) {
 			throw new FatalError("Cannot open file " + fileName);
@@ -264,7 +271,7 @@ public class Scanner {
 	}
 	
 	public Scanner (Stream s) {
-		buffer = new Buffer(s, true);
+		buffer = new UTF8Buffer(s, true);
 		Init();
 	}
 	
@@ -278,7 +285,7 @@ public class Scanner {
 			if (ch1 != 0xBB || ch2 != 0xBF) {
 				throw new FatalError(String.Format("illegal byte order mark: EF {0,2:X} {1,2:X}", ch1, ch2));
 			}
-			buffer = new UTF8Buffer(buffer); col = 0; charPos = -1;
+			col = 0; charPos = -1;
 			NextCh();
 		}
 		pt = tokens = new Token();  // first token is a dummy
