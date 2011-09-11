@@ -1,0 +1,29 @@
+# simple configuration language
+# .scl - sculptor file - text/x-scl
+
+Encoding     utf-8 only €uro
+Escape       " \\\" | \\\\ | \\a | \\b | \\f | \\n | \\r | \\t | \\v "
+Spaces       "hello world"
+Multiple     a0 a1 a2			# Root.Element("Multiple") -> ["a0", "a1", "a2"];
+Multiple     b0 b1 b2			# Root.Elements("Multiple") -> [["a0", "a1", "a2"], ["b0", "b1", "b2"]];
+Tabs		spaces or tabs		# Root.Value("Tabs") -> "spaces";
+EmptyVal     					# Root.Value("EmptyVal") -> ""; Root.Value("Blah") -> NULL;
+
+FooContext	foo "fo'o2" foo3 {	# Root.Elements("Context") -> [["foo", "foo2", "foo3"]];
+	Uri		http://example.com
+	Port 	80
+	Ssl		0					# Root.Context("FooContext").Value("Ssl") -> "0";
+	
+	BarContext another {
+		Hello	World
+		Key		Value
+        ;                       # semicolons and \n are equivalent
+	}
+	
+	InLine 1; Inline { Hello World; Key "Value"; EmptyVal; }
+}
+
+CaseSensitive  true
+OrderSensitive false
+;
+;;
