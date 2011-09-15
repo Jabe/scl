@@ -5,6 +5,8 @@ using System.Text;
 
 using System;
 
+namespace Scl.Grammar {
+
 
 
 public class Parser {
@@ -300,4 +302,5 @@ public class Errors {
 
 public class FatalError: Exception {
 	public FatalError(string m): base(m) {}
+}
 }

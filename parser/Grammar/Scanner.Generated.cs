@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Collections;
 
-
+namespace Scl.Grammar {
 
 public class Token {
 	public int kind;    // token kind
@@ -407,3 +407,4 @@ public class Scanner {
 	public void ResetPeek () { pt = tokens; }
 
 } // end Scanner
+}

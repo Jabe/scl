@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SclParser", "SclParser.csproj", "{669816EA-8079-4EAB-BE34-CEB1674BAB34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scl", "Scl.csproj", "{669816EA-8079-4EAB-BE34-CEB1674BAB34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

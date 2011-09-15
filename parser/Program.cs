@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Scl.Grammar;
 
-namespace SclParser
+namespace Scl
 {
     internal class Program
     {
