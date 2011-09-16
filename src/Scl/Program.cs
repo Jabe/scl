@@ -12,7 +12,7 @@ namespace Scl
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            var root = SclObject.Parse(@"..\..\..\scl-draft.scl");
+            var root = SclObject.Parse(@"..\..\..\..\spec\scl-v0.9.scl");
 
             /*
              *  Root.Element("Multiple")  -> ["a0", "a1", "a2"];
@@ -37,7 +37,7 @@ namespace Scl
             root.Elements("Context");
             root.Context("FooContext").Value("Ssl");
 
-            var scanner = new Scanner(@"..\..\..\scl-draft.scl");
+            var scanner = new Scanner(@"..\..\..\..\spec\scl-v0.9.scl");
             var parser = new Parser(scanner);
             parser.Parse();
 
