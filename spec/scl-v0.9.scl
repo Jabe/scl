@@ -9,7 +9,7 @@ Multiple     b0 b1 b2           # Root.Elements("Multiple") -> [["a0", "a1", "a2
 Whitespace   spaces or tabs     # Root.Value("Whitespace")  -> "spaces";
 EmptyVal                        # Root.Value("EmptyVal")    -> ""; Root.Value("Blah") -> NULL;
 
-FooContext  foo "fo'o2" foo3 {  # Root.Elements("Context")  -> [["foo", "foo2", "foo3"]];
+FooContext  foo "fo'o2" foo3 {  # Root.Elements("FooContext")  -> [["foo", "fo'o2", "foo3"]];
     Uri     http://example.com
     Port    80
     Ssl     0                   # Root.Context("FooContext").Value("Ssl") -> "0";

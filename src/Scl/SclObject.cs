@@ -1,10 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Scl.Grammar;
 
 namespace Scl
 {
     public class SclObject
     {
+        private readonly Parser.SclElement _root;
+
+        private SclObject(Parser.SclElement root)
+        {
+            _root = root;
+        }
+
         public static SclObject Parse(string path)
         {
             using (FileStream stream = File.OpenRead(path))
@@ -15,22 +25,56 @@ namespace Scl
 
         public static SclObject Parse(Stream stream)
         {
-            throw new NotImplementedException();
+            var scanner = new Scanner(@"..\..\..\..\spec\scl-v0.9.scl");
+            var parser = new Parser(scanner);
+            parser.Parse();
+
+            return new SclObject(parser.root);
         }
 
-        public void Element(string key)
+        public IEnumerable<string> Element(string key)
         {
-            throw new NotImplementedException();
+            foreach (Parser.SclElement el in _root.Children)
+            {
+                if (el.Name == key)
+                {
+                    foreach (Parser.SclVal val in el.Vals)
+                    {
+                        yield return val.Val;
+                    }
+
+                    break;
+                }
+            }
         }
 
-        public void Elements(string key)
+        public IEnumerable<IEnumerable<string>> Elements(string key)
         {
-            throw new NotImplementedException();
+            foreach (Parser.SclElement el in _root.Children)
+            {
+                if (el.Name == key)
+                {
+                    yield return el.Vals.Select(x => x.ToString());
+                }
+            }
         }
 
-        public void Value(string key)
+        public string Value(string key)
         {
-            throw new NotImplementedException();
+            foreach (Parser.SclElement el in _root.Children)
+            {
+                if (el.Name == key)
+                {
+                    foreach (Parser.SclVal val in el.Vals)
+                    {
+                        return val.Val;
+                    }
+
+                    return "";
+                }
+            }
+
+            return null;
         }
 
         public SclObject Context(string key)

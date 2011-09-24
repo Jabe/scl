@@ -53,9 +53,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="v09\SclObjectValueTest.cs" />
+    <Compile Include="v09\SclObjectElementTest.cs" />
+    <Compile Include="v09\SclObjectElementsTest.cs" />
+    <Compile Include="v09\GrammarTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Scl\Scl.csproj">
+      <Project>{669816EA-8079-4EAB-BE34-CEB1674BAB34}</Project>
+      <Name>Scl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

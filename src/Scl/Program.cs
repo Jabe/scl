@@ -20,7 +20,7 @@ namespace Scl
              *  Root.Value("Whitespace")  -> "spaces";
              *  Root.Value("EmptyVal")    -> ""; Root.Value("Blah") -> NULL;
              * 
-             *  Root.Elements("Context")  -> [["foo", "foo2", "foo3"]];
+             *  Root.Elements("FooContext")  -> [["foo", "fo'o2", "foo3"]];
              * 
              * 
              *  Root.Context("FooContext").Value("Ssl") -> "0";
