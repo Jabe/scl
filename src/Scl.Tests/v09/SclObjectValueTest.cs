@@ -25,7 +25,7 @@ namespace Scl.Tests.v09
         {
             SclObject obj = SclObject.Parse(GrammarTests.File);
 
-            // Root.Value("EmptyVal")    -> ""; Root.Value("Blah") -> NULL;
+            // Root.Value("EmptyVal")    -> "";
 
             var result = obj.Value("EmptyVal");
 
@@ -37,11 +37,23 @@ namespace Scl.Tests.v09
         {
             SclObject obj = SclObject.Parse(GrammarTests.File);
 
-            // Root.Value("EmptyVal")    -> ""; Root.Value("Blah") -> NULL;
+            // Root.Value("Blah") -> NULL;
 
             var result = obj.Value("Blah");
 
             Assume.That(result, Is.Null);
+        }
+
+        [Test]
+        public void Test4()
+        {
+            SclObject obj = SclObject.Parse(GrammarTests.File);
+
+            // Root.Value("Multiple") -> "b0";
+
+            var result = obj.Value("Multiple");
+
+            Assume.That(result, Is.EqualTo("b0"));
         }
     }
 }

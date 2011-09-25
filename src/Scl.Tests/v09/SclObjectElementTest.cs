@@ -13,13 +13,13 @@ namespace Scl.Tests.v09
         {
             SclObject obj = SclObject.Parse(GrammarTests.File);
 
-            // Root.Element("Multiple")  -> ["a0", "a1", "a2"];
+            // Root.Element("Multiple")  -> ["b0", "b1", "b2"];
 
             var result = obj.Element("Multiple").ToArray();
 
             Assume.That(result.Count(), Is.EqualTo(3));
 
-            Assume.That(result, Is.EqualTo(new[] {"a0", "a1", "a2"}));
+            Assume.That(result, Is.EqualTo(new[] {"b0", "b1", "b2"}));
         }
     }
 }

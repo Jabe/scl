@@ -34,7 +34,9 @@ namespace Scl
 
         public IEnumerable<string> Element(string key)
         {
-            foreach (Parser.SclElement el in _root.Children)
+            IEnumerable<Parser.SclElement> rev = Enumerable.Reverse(_root.Children);
+
+            foreach (Parser.SclElement el in rev)
             {
                 if (el.Name == key)
                 {
@@ -61,7 +63,9 @@ namespace Scl
 
         public string Value(string key)
         {
-            foreach (Parser.SclElement el in _root.Children)
+            IEnumerable<Parser.SclElement> rev = Enumerable.Reverse(_root.Children);
+
+            foreach (Parser.SclElement el in rev)
             {
                 if (el.Name == key)
                 {
