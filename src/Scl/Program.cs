@@ -37,6 +37,7 @@ namespace Scl
             root.Elements("Context");
             root.Context("FooContext").Value("Ssl");
 
+            // I don't like this!
             var scanner = new Scanner(@"..\..\..\..\spec\scl-v0.9.scl");
             var parser = new Parser(scanner);
             parser.Parse();
